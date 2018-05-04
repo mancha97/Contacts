@@ -101,7 +101,7 @@ public class FragmentCall extends Fragment {
             int date = cursor.getColumnIndex(CallLog.Calls.DATE);
             int type = cursor.getColumnIndex(CallLog.Calls.TYPE);
 
-            cursor.moveToFirst();
+
 
 
             while (cursor.moveToNext()) {
@@ -130,7 +130,7 @@ public class FragmentCall extends Fragment {
                         break;
                 }
 
-                list.add(new ModelCall(cursor.getString(number), cursor.getString(duration)+"  "+dir, longD.format(d) + "\n" + shortDf.format(d)));
+                list.add(new ModelCall(cursor.getString(number), CalcularTiempo(cursor.getString(duration))+"  -  "+dir, longD.format(d) + "\n" + shortDf.format(d)));
 
 
             }
@@ -142,6 +142,33 @@ public class FragmentCall extends Fragment {
     public void requestPermission(){
         requestPermissions(new String[]{Manifest.permission.READ_CALL_LOG},code);
 
+    }
+    private String CalcularTiempo(String segundos)
+    {
+        String txtH, txtM, txtS;
+        int tsegundos = Integer.parseInt(segundos);
+
+        int horas = (tsegundos / 3600);
+        int minutos = ((tsegundos-horas*3600)/60);
+        int segundo = tsegundos-(horas*3600)-(minutos*60);
+
+        String duracion;
+
+        if(horas <= 9){
+            txtH = "0" + Integer.toString(horas);
+        } else{ txtH = Integer.toString(horas); }
+
+        if(minutos <= 9){
+            txtM = "0" + Integer.toString(minutos);
+        } else{ txtM = Integer.toString(minutos); }
+
+        if(segundo <= 9){
+            txtS = "0" + Integer.toString(segundo);
+        } else{ txtS = Integer.toString(segundo); }
+
+
+        duracion = txtH + ": " + txtM + ": " + txtS;
+        return duracion;
     }
 
         }
