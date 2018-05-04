@@ -3,7 +3,7 @@ package com.valle00018316.parcial1.fragments;
 
 import android.Manifest;
 
-import android.annotation.SuppressLint;
+
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -35,12 +35,35 @@ import java.util.List;
 public class FragmentCall extends Fragment {
     private View v;
     private RecyclerView recyclerView;
-    public int code;
+    public int code=1997;
 
     public FragmentCall() {
 
     }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                                           int[] grantResults) {
 
+        if (requestCode == code
+                && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            Log.d("myTag", "Salvacion");
+            CallRvAdapter adapter = new CallRvAdapter(getContext(), getCallLogs());
+
+            recyclerView.setAdapter(adapter);
+        }
+        else{
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            builder.setMessage(R.string.Permissions)
+                    .setCancelable(false)
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            requestPermission();
+                        }
+                    });
+            AlertDialog alert = builder.create();
+            alert.show();
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -63,28 +86,16 @@ public class FragmentCall extends Fragment {
 
         List<ModelCall> list = new ArrayList<>();
 
-        // Here, thisActivity is the current activity
+
         if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.READ_CALL_LOG) != PackageManager.PERMISSION_GRANTED) {
 
 
-            if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
-                    Manifest.permission.READ_CALL_LOG)) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                builder.setMessage(R.string.Permissions)
-                        .setCancelable(false)
-                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                requestPermission();
-                            }
-                        });
-                AlertDialog alert = builder.create();
-                alert.show();
-
-
-            } else {
+                Log.d("myTag", "entro en 1");
                 requestPermission();
+
+
             }
-        } else {
+        else {
             Cursor cursor = getContext().getContentResolver().query(CallLog.Calls.CONTENT_URI, null, null, null, CallLog.Calls.DATE + " ASC");
 
             int number = cursor.getColumnIndex(CallLog.Calls.NUMBER);
@@ -102,7 +113,7 @@ public class FragmentCall extends Fragment {
 
                 list.add(new ModelCall(cursor.getString(number), cursor.getString(duration), longDF.format(d) + " " + shortDfH.format(d)));
 
-                Log.d("MiC::", cursor.getString(number));
+
             }
 
         }
@@ -110,9 +121,9 @@ public class FragmentCall extends Fragment {
     }
 
     public void requestPermission(){
-        ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_CALL_LOG}, code);
-    }
+        requestPermissions(new String[]{Manifest.permission.READ_CALL_LOG},code);
 
+    }
 
         }
 
