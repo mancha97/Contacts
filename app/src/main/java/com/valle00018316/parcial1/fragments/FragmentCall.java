@@ -46,7 +46,7 @@ public class FragmentCall extends Fragment {
 
         if (requestCode == code
                 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            Log.d("myTag", "Salvacion");
+
             CallRvAdapter adapter = new CallRvAdapter(getContext(), getCallLogs());
 
             recyclerView.setAdapter(adapter);
@@ -89,14 +89,12 @@ public class FragmentCall extends Fragment {
 
         if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.READ_CALL_LOG) != PackageManager.PERMISSION_GRANTED) {
 
-
-                Log.d("myTag", "entro en 1");
                 requestPermission();
 
 
             }
         else {
-            Cursor cursor = getContext().getContentResolver().query(CallLog.Calls.CONTENT_URI, null, null, null, CallLog.Calls.DATE + " ASC");
+            Cursor cursor = getContext().getContentResolver().query(CallLog.Calls.CONTENT_URI, null, null, null, CallLog.Calls.DATE + " DESC");
 
             int number = cursor.getColumnIndex(CallLog.Calls.NUMBER);
             int duration = cursor.getColumnIndex(CallLog.Calls.DURATION);
@@ -111,7 +109,7 @@ public class FragmentCall extends Fragment {
                 DateFormat longDF = DateFormat.getDateInstance(DateFormat.LONG);
                 DateFormat shortDfH = DateFormat.getTimeInstance(DateFormat.SHORT);
 
-                list.add(new ModelCall(cursor.getString(number), cursor.getString(duration), longDF.format(d) + " " + shortDfH.format(d)));
+                list.add(new ModelCall(cursor.getString(number), cursor.getString(duration), longDF.format(d) + "\n" + shortDfH.format(d)));
 
 
             }
