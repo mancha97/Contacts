@@ -4,4 +4,7 @@
     <string name="Contacts">Contacts</string>
     <string name="Favorites">Favorites</string>
     <string name="Permissions">We need your permissions for contacts and call logs, sorry about that :-(</string>
+    <string name="outgoing">Outgoing</string>
+    <string name="incoming">Incoming</string>
+    <string name="missed">Missed</string>
 </resources>

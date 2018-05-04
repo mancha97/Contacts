@@ -99,8 +99,10 @@ public class FragmentCall extends Fragment {
             int number = cursor.getColumnIndex(CallLog.Calls.NUMBER);
             int duration = cursor.getColumnIndex(CallLog.Calls.DURATION);
             int date = cursor.getColumnIndex(CallLog.Calls.DATE);
+            int type = cursor.getColumnIndex(CallLog.Calls.TYPE);
 
             cursor.moveToFirst();
+
 
             while (cursor.moveToNext()) {
 
@@ -109,7 +111,26 @@ public class FragmentCall extends Fragment {
                 DateFormat longD = DateFormat.getDateInstance(DateFormat.LONG);
                 DateFormat shortDf = DateFormat.getTimeInstance(DateFormat.SHORT);
 
-                list.add(new ModelCall(cursor.getString(number), cursor.getString(duration), longD.format(d) + "\n" + shortDf.format(d)));
+                String callType = cursor.getString(type);
+
+                String dir = null;
+                int dircode = Integer.parseInt(callType);
+                switch (dircode) {
+                    case CallLog.Calls.OUTGOING_TYPE:
+                        dir = getString(R.string.outgoing);
+
+                        break;
+
+                    case CallLog.Calls.INCOMING_TYPE:
+                        dir = getString(R.string.incoming);
+                        break;
+
+                    case CallLog.Calls.MISSED_TYPE:
+                        dir = getString(R.string.missed);
+                        break;
+                }
+
+                list.add(new ModelCall(cursor.getString(number), cursor.getString(duration)+"  "+dir, longD.format(d) + "\n" + shortDf.format(d)));
 
 
             }
