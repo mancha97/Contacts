@@ -106,10 +106,10 @@ public class FragmentCall extends Fragment {
 
                 Date d = new Date(Long.valueOf(cursor.getString(date)));
 
-                DateFormat longDF = DateFormat.getDateInstance(DateFormat.LONG);
-                DateFormat shortDfH = DateFormat.getTimeInstance(DateFormat.SHORT);
+                DateFormat longD = DateFormat.getDateInstance(DateFormat.LONG);
+                DateFormat shortDf = DateFormat.getTimeInstance(DateFormat.SHORT);
 
-                list.add(new ModelCall(cursor.getString(number), cursor.getString(duration), longDF.format(d) + "\n" + shortDfH.format(d)));
+                list.add(new ModelCall(cursor.getString(number), cursor.getString(duration), longD.format(d) + "\n" + shortDf.format(d)));
 
 
             }
