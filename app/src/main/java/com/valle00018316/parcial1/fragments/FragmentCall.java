@@ -6,6 +6,7 @@ import android.Manifest;
 
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.CallLog;
@@ -117,7 +118,7 @@ public class FragmentCall extends Fragment {
 
 
 
-                list.add(new ModelCall(cursor.getString(name), CalcularTiempo(cursor.getString(duration))+"  -  "+dir, longD.format(d) + "\n" + shortDf.format(d)));
+                list.add(new ModelCall(cursor.getString(name), CalcularTiempo(cursor.getString(duration)), longD.format(d) + "\n" + shortDf.format(d)));
 
 
             }

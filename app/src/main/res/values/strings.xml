@@ -1,10 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Parcial1</string>
-    <string name="Calls">Calls</string>
-    <string name="Contacts">Contacts</string>
-    <string name="Favorites">Favorites</string>
-    <string name="Permissions">We need your permissions for contacts and call logs, sorry about that :-(</string>
-    <string name="outgoing">Outgoing</string>
-    <string name="incoming">Incoming</string>
-    <string name="missed">Missed</string>
+    <!--<string name="app_name">Parcial1</string>-->
+    <!--<string name="Calls">Calls</string>-->
+    <!--<string name="Contacts">Contacts</string>-->
+    <!--<string name="Favorites">Favorites</string>-->
+    <!--<string name="Permissions">We need your permissions for contacts and call logs, sorry about that :-(</string>-->
+    <!--<string name="outgoing">Outgoing</string>-->
+    <!--<string name="incoming">Incoming</string>-->
+    <!--<string name="missed">Missed</string>-->
+    <!--<string name="hello">Hello</string>-->
 </resources>

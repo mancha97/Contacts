@@ -35,7 +35,7 @@ public class CallRvAdapter extends RecyclerView.Adapter<CallRvAdapter.ViewHolder
         View view= layoutInflater.inflate(R.layout.item_call, parent, false);
 
         ViewHolder viewHolder= new ViewHolder(view);
-        Log.d("Se creo el oncreateview", "REVADAPTER: ");
+
 
         return viewHolder;
     }

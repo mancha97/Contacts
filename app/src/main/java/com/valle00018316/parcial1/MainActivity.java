@@ -1,8 +1,10 @@
 package com.valle00018316.parcial1;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.provider.ContactsContract;
 import android.support.design.widget.TabLayout;
@@ -13,8 +15,12 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Adapter;
+import android.widget.TextView;
 
+import com.valle00018316.parcial1.Helper.LocaleHelper;
 import com.valle00018316.parcial1.adapter.ContactRvAdapter;
 import com.valle00018316.parcial1.adapter.ViewPagerAdapter;
 import com.valle00018316.parcial1.fragments.FragmentCall;
@@ -25,14 +31,26 @@ import com.valle00018316.parcial1.models.ModelContact;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.paperdb.Paper;
+
 public class MainActivity extends AppCompatActivity {
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private int code=16;
+    TextView textView;
 
     private final int[] ICONS={R.drawable.phone, R.drawable.avatar, R.drawable.star};
     ViewPagerAdapter adapter= new ViewPagerAdapter(getSupportFragmentManager());
+    FragmentCall fragC=new FragmentCall();
+    FragmentContact fragC2=new FragmentContact();
+    FragmentFav fragF=new FragmentFav();
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(LocaleHelper.onAttach(newBase,"en"));
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,25 +59,70 @@ public class MainActivity extends AppCompatActivity {
         requestPermission();
         tabLayout= findViewById(R.id.tablayout);
         viewPager= findViewById(R.id.viewpager);
+        textView=(TextView)findViewById(R.id.hola);
 
+        //Init Paper
+        Paper.init(this);
 
-
-        adapter.addFragment(new FragmentCall(),getString(R.string.Calls));
-        adapter.addFragment(new FragmentContact(),getString(R.string.Contacts));
-        adapter.addFragment(new FragmentFav(),getString(R.string.Favorites));
-
-
-        viewPager.setAdapter(adapter);
-        tabLayout.setupWithViewPager(viewPager);
-
-
-
-        for(int i=0; i<tabLayout.getTabCount(); i++){
-            TabLayout.Tab tab= tabLayout.getTabAt(i);
-            tab.setIcon(ICONS[i]);
+        //Default language is English
+        String language= Paper.book().read("language");
+        if (language==null){
+            Paper.book().write("language","en");
         }
+
+
+        adapter.addFragment(fragC,getString(R.string.Calls));
+        adapter.addFragment(fragC2,getString(R.string.Contacts));
+        adapter.addFragment(fragF,getString(R.string.Favorites));
+
+
+        updateView((String)Paper.book().read("language"));
+
+
+
+
+
     }
 
+    private void updateView(String lang) {
+            Context context=LocaleHelper.setLocale(this,lang);
+            Resources resources = context.getResources();
+            textView.setText(resources.getString(R.string.hello));
+            adapter.setFragList(0,resources.getString(R.string.Calls),new FragmentCall());
+            adapter.setFragList(1,resources.getString(R.string.Contacts),fragC2);
+            adapter.setFragList(2,resources.getString(R.string.Favorites),fragF);
+            viewPager.setAdapter(adapter);
+            tabLayout.setupWithViewPager(viewPager);
+
+
+
+            for(int i=0; i<tabLayout.getTabCount(); i++){
+                TabLayout.Tab tab= tabLayout.getTabAt(i);
+            tab.setIcon(ICONS[i]);
+            }
+
+
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId()==R.id.language_en){
+            Paper.book().write("language","en");
+            updateView((String)Paper.book().read("language"));
+        }
+        else if(item.getItemId()==R.id.language_es){
+            Paper.book().write("language","es");
+            updateView((String)Paper.book().read("language"));
+        }
+        return true;
+    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions,

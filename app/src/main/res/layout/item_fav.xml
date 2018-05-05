@@ -9,7 +9,7 @@
     android:weightSum="10">
 
     <Button
-
+        android:id="@+id/contact_info"
         android:layout_width="0dp"
         android:layout_marginLeft="8dp"
 
@@ -45,6 +45,7 @@
 
     </LinearLayout>
     <Button
+        android:id="@+id/contact_call"
         android:layout_marginRight="8dp"
         android:layout_width="0dp"
         android:layout_weight="1"
