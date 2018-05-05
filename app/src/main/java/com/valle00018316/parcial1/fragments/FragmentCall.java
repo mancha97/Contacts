@@ -17,6 +17,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.telecom.Call;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -75,7 +76,7 @@ public class FragmentCall extends Fragment {
         else {
             Cursor cursor = getContext().getContentResolver().query(CallLog.Calls.CONTENT_URI, null, null, null, CallLog.Calls.DATE + " DESC");
 
-            int number = cursor.getColumnIndex(CallLog.Calls.NUMBER);
+
             int duration = cursor.getColumnIndex(CallLog.Calls.DURATION);
             int date = cursor.getColumnIndex(CallLog.Calls.DATE);
             int type = cursor.getColumnIndex(CallLog.Calls.TYPE);
@@ -84,13 +85,18 @@ public class FragmentCall extends Fragment {
 
 
             while (cursor.moveToNext()) {
-
+                int name = cursor.getColumnIndex(CallLog.Calls.CACHED_NAME);
                 Date d = new Date(Long.valueOf(cursor.getString(date)));
 
                 DateFormat longD = DateFormat.getDateInstance(DateFormat.LONG);
                 DateFormat shortDf = DateFormat.getTimeInstance(DateFormat.SHORT);
 
                 String callType = cursor.getString(type);
+                String nam= cursor.getString(name);
+
+                if(nam==null){
+                    name=cursor.getColumnIndex(CallLog.Calls.NUMBER);
+                }
 
                 String dir = null;
                 int dircode = Integer.parseInt(callType);
@@ -109,7 +115,9 @@ public class FragmentCall extends Fragment {
                         break;
                 }
 
-                list.add(new ModelCall(cursor.getString(number), CalcularTiempo(cursor.getString(duration))+"  -  "+dir, longD.format(d) + "\n" + shortDf.format(d)));
+
+
+                list.add(new ModelCall(cursor.getString(name), CalcularTiempo(cursor.getString(duration))+"  -  "+dir, longD.format(d) + "\n" + shortDf.format(d)));
 
 
             }
