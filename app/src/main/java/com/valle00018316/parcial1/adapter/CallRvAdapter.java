@@ -3,6 +3,7 @@ package com.valle00018316.parcial1.adapter;
 import android.content.Context;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +35,7 @@ public class CallRvAdapter extends RecyclerView.Adapter<CallRvAdapter.ViewHolder
         View view= layoutInflater.inflate(R.layout.item_call, parent, false);
 
         ViewHolder viewHolder= new ViewHolder(view);
+        Log.d("Se creo el oncreateview", "REVADAPTER: ");
 
         return viewHolder;
     }

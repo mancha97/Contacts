@@ -40,30 +40,7 @@ public class FragmentCall extends Fragment {
     public FragmentCall() {
 
     }
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                                           int[] grantResults) {
 
-        if (requestCode == code
-                && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-            CallRvAdapter adapter = new CallRvAdapter(getContext(), getCallLogs());
-
-            recyclerView.setAdapter(adapter);
-        }
-        else{
-            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-            builder.setMessage(R.string.Permissions)
-                    .setCancelable(false)
-                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            requestPermission();
-                        }
-                    });
-            AlertDialog alert = builder.create();
-            alert.show();
-        }
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -79,6 +56,8 @@ public class FragmentCall extends Fragment {
 
         recyclerView.setAdapter(adapter);
 
+
+
         return v;
     }
 
@@ -89,7 +68,7 @@ public class FragmentCall extends Fragment {
 
         if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.READ_CALL_LOG) != PackageManager.PERMISSION_GRANTED) {
 
-                requestPermission();
+//                requestPermission();
 
 
             }
@@ -139,10 +118,7 @@ public class FragmentCall extends Fragment {
         return list;
     }
 
-    public void requestPermission(){
-        requestPermissions(new String[]{Manifest.permission.READ_CALL_LOG},code);
 
-    }
     private String CalcularTiempo(String segundos)
     {
         String txtH, txtM, txtS;
