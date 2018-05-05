@@ -69,7 +69,11 @@ public class MainActivity extends AppCompatActivity {
                 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             Log.d("ddd", "ggg: ");
 
-
+            viewPager.setAdapter(adapter);
+            for(int i=0; i<tabLayout.getTabCount(); i++){
+                TabLayout.Tab tab= tabLayout.getTabAt(i);
+                tab.setIcon(ICONS[i]);
+            }
 
 
 

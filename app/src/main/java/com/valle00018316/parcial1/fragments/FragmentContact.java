@@ -32,6 +32,7 @@ public class FragmentContact extends Fragment {
     private View v;
     private RecyclerView recyclerView;
     private int request = 14;
+    private Button llamada;
 
     public FragmentContact() {
 
