@@ -33,6 +33,7 @@ public class FragmentContact extends Fragment {
     private RecyclerView recyclerView;
     private int request = 14;
     private Button llamada;
+    public static List<ModelContact> list = new ArrayList<>();
 
     public FragmentContact() {
 
@@ -60,7 +61,7 @@ public class FragmentContact extends Fragment {
 
     private List<ModelContact> getContacts() {
 
-        List<ModelContact> list = new ArrayList<>();
+
 
         if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
 //            requestPermission();
@@ -71,7 +72,7 @@ public class FragmentContact extends Fragment {
             while (cursor.moveToNext()) {
 
                 list.add(new ModelContact(cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME)),
-                        cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))));
+                        cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)),false));
 
             }
 

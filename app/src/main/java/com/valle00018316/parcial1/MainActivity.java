@@ -35,12 +35,12 @@ import io.paperdb.Paper;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TabLayout tabLayout;
-    private ViewPager viewPager;
+    private static TabLayout tabLayout;
+    public static ViewPager viewPager;
     private int code=16;
     TextView textView;
 
-    private final int[] ICONS={R.drawable.phone, R.drawable.avatar, R.drawable.star};
+    private final static int[] ICONS={R.drawable.phone,R.drawable.avatar , R.drawable.star};
     ViewPagerAdapter adapter= new ViewPagerAdapter(getSupportFragmentManager());
     FragmentCall fragC=new FragmentCall();
     FragmentContact fragC2=new FragmentContact();
@@ -73,6 +73,8 @@ public class MainActivity extends AppCompatActivity {
 
         adapter.addFragment(fragC,getString(R.string.Calls));
         adapter.addFragment(fragC2,getString(R.string.Contacts));
+
+
         adapter.addFragment(fragF,getString(R.string.Favorites));
 
 
@@ -88,11 +90,12 @@ public class MainActivity extends AppCompatActivity {
             Context context=LocaleHelper.setLocale(this,lang);
             Resources resources = context.getResources();
             textView.setText(resources.getString(R.string.hello));
-            adapter.setFragList(0,resources.getString(R.string.Calls),new FragmentCall());
+            adapter.setFragList(0,resources.getString(R.string.Calls),fragC);
             adapter.setFragList(1,resources.getString(R.string.Contacts),fragC2);
             adapter.setFragList(2,resources.getString(R.string.Favorites),fragF);
             viewPager.setAdapter(adapter);
             tabLayout.setupWithViewPager(viewPager);
+
 
 
 
@@ -165,6 +168,15 @@ public class MainActivity extends AppCompatActivity {
     public void requestPermission(){
         ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.READ_CALL_LOG,Manifest.permission.READ_CONTACTS},code);
 
+    }
+
+    public static void updatevp(int d){
+        viewPager.setAdapter(viewPager.getAdapter());
+        for(int i=0; i<tabLayout.getTabCount(); i++){
+            TabLayout.Tab tab= tabLayout.getTabAt(i);
+            tab.setIcon(ICONS[i]);
+        }
+        viewPager.setCurrentItem(d);
     }
 
 //    private void askPermissions(){
