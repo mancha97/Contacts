@@ -92,7 +92,7 @@ public class ContactRvAdapter extends RecyclerView.Adapter<ContactRvAdapter.View
                 tvnumber.setText(mListContacts.get(position).getNumber());
                 mDialog.show();
 
-                Button share = mDialog.findViewById(R.id.display_share);
+                ImageView share = mDialog.findViewById(R.id.display_share);
                 share.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -186,7 +186,7 @@ public class ContactRvAdapter extends RecyclerView.Adapter<ContactRvAdapter.View
         Button llamada;
         boolean fav;
         LinearLayout contacto;
-        Button share;
+        ImageView share;
 
         public ViewHolder(View itemView, boolean favo){
             super(itemView);

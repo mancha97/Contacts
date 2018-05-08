@@ -1,12 +1,15 @@
 package com.valle00018316.parcial1;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.provider.ContactsContract;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -21,7 +24,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Adapter;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.valle00018316.parcial1.Helper.LocaleHelper;
 import com.valle00018316.parcial1.adapter.ContactRvAdapter;
@@ -36,6 +42,8 @@ import java.util.List;
 
 import io.paperdb.Paper;
 
+import static com.valle00018316.parcial1.fragments.FragmentContact.list;
+
 public class MainActivity extends AppCompatActivity {
 
     private static TabLayout tabLayout;
@@ -49,11 +57,17 @@ public class MainActivity extends AppCompatActivity {
     public  FragmentCall fragC=new FragmentCall();
     public final FragmentContact fragC2=new FragmentContact();
     public final FragmentFav fragF=new FragmentFav();
+    FloatingActionButton fab;
+    Dialog mDialog;
+
 
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(LocaleHelper.onAttach(newBase,"en"));
     }
+
+
+
 
     @Override
     protected void onResume() {
@@ -71,6 +85,9 @@ public class MainActivity extends AppCompatActivity {
         requestPermission();
         tabLayout= findViewById(R.id.tablayout);
         viewPager= findViewById(R.id.viewpager);
+        fab=findViewById(R.id.fab);
+        mDialog = new Dialog(this);
+        mDialog.setContentView(R.layout.contact_add);
 
 
         //Init Paper
@@ -93,8 +110,30 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
         updateView((String)Paper.book().read("language"));
 
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                final EditText tvname = mDialog.findViewById(R.id.display_name);
+                final EditText tvnumber = mDialog.findViewById(R.id.display_number);
+
+                mDialog.show();
+
+                ImageView share = mDialog.findViewById(R.id.display_share);
+                share.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Log.d("entro con", "onClick: ");
+                        list.add(new ModelContact(tvname.getText().toString(),tvnumber.getText().toString(),false));
+                        mDialog.hide();
+                    }
+                });
+            }
 
 
+
+
+        });
 
 
 
@@ -107,6 +146,8 @@ public class MainActivity extends AppCompatActivity {
             adapter.setFragList(0,resources.getString(R.string.Calls),new FragmentCall());
             adapter.setFragList(1,resources.getString(R.string.Contacts),fragC2);
             adapter.setFragList(2,resources.getString(R.string.Favorites),fragF);
+
+
 
 
             for(int i=0; i<tabLayout.getTabCount(); i++){

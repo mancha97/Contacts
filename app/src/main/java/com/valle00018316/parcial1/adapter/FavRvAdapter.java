@@ -90,7 +90,7 @@ public class FavRvAdapter extends RecyclerView.Adapter<FavRvAdapter.ViewHolder> 
                 tvnumber.setText(mListFavs.get(position).getNumber());
                 mDialog.show();
 
-                Button share = mDialog.findViewById(R.id.display_share);
+                ImageView share = mDialog.findViewById(R.id.display_share);
                 share.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -210,7 +210,7 @@ public class FavRvAdapter extends RecyclerView.Adapter<FavRvAdapter.ViewHolder> 
         Button llamada;
         boolean fav;
         LinearLayout contacto;
-        Button share;
+        ImageView share;
 
         public ViewHolder(View itemView){
             super(itemView);

@@ -11,4 +11,6 @@
     <string name="hello">Hello</string>
     <string name="name">Name</string>
     <string name="num">Number</string>
+    <string name="save">Save</string>
+    <string name="share">Share</string>
 </resources>

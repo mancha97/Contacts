@@ -17,26 +17,27 @@
         android:background="@color/colorPrimary"
         android:gravity="center_horizontal">
 
-        <TextView
+        <EditText
+            android:inputType="text"
             android:id="@+id/display_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Name"
+            android:hint="@string/name"
             android:textColor="#000"
             android:textSize="24sp"
             android:textStyle="bold"
             android:layout_marginTop="60dp"/>
 
-        <TextView
+        <EditText
+            android:inputType="number"
+            android:hint="@string/num"
             android:id="@+id/display_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Num"
+
             android:textColor="#000"
             android:textSize="18sp"
-            android:layout_marginTop="5sp"
-            android:layout_marginBottom="8dp"
-            />
+            android:layout_marginTop="5sp"/>
 
 
 
@@ -48,8 +49,9 @@
             android:layout_height="wrap_content"
             android:background="#7BB31A"
             android:padding="10dp"
-            android:src="@android:drawable/ic_menu_share"
-            android:text=".."/>
+            android:tint="#fff"
+            android:src="@android:drawable/ic_input_add"
+            android:text="@string/save"/>
 
     </LinearLayout>
 
