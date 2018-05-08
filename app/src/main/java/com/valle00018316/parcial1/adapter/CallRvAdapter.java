@@ -1,12 +1,18 @@
 package com.valle00018316.parcial1.adapter;
 
+import android.Manifest;
 import android.content.Context;
 
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.valle00018316.parcial1.R;
@@ -41,9 +47,10 @@ public class CallRvAdapter extends RecyclerView.Adapter<CallRvAdapter.ViewHolder
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position) {
 
         TextView name, duration, date;
+        Button llamada;
         name = holder.name;
         duration= holder.duration;
         date = holder.date;
@@ -51,6 +58,15 @@ public class CallRvAdapter extends RecyclerView.Adapter<CallRvAdapter.ViewHolder
         name.setText(nlistCall.get(position).getNumber());
         duration.setText(nlistCall.get(position).getDuration());
         date.setText(nlistCall.get(position).getDate());
+        llamada = holder.llamada;
+
+        llamada.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                dialContactPhone(nlistCall.get(position).getNumber());
+            }
+        });
 
     }
 
@@ -59,15 +75,29 @@ public class CallRvAdapter extends RecyclerView.Adapter<CallRvAdapter.ViewHolder
         return nlistCall.size();
     }
 
+    private void dialContactPhone(final String phoneNumber) {
+        if (ActivityCompat.checkSelfPermission(nContext, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+//              requestPermissions(mcontext,Manifest.permission.CALL_PHONE,1);
+        }else{
+//            mcontext.startActivity(new Intent(Intent.ACTION_CALL, Uri.fromParts("tel", phoneNumber, null)));
+            Intent intent = new Intent(Intent.ACTION_CALL);
+            intent.setData(Uri.parse("tel:"+phoneNumber));
+            nContext.startActivity(intent);
+        }
+
+    }
+
     public class ViewHolder extends  RecyclerView.ViewHolder {
 
         TextView name, duration, date;
+        Button llamada;
         public ViewHolder(View itemView) {
             super(itemView);
 
             name= itemView.findViewById(R.id.contact_name);
             duration= itemView.findViewById(R.id.call_duration);
             date= itemView.findViewById(R.id.call_date);
+            llamada=itemView.findViewById(R.id.contact_call);
         }
     }
 

@@ -1,12 +1,18 @@
 package com.valle00018316.parcial1.adapter;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -49,16 +55,24 @@ public class FavRvAdapter extends RecyclerView.Adapter<FavRvAdapter.ViewHolder> 
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
         TextView contact_name, contact_number;
         ImageView boton;
+        Button llamada;
 
         contact_name = holder.contact_name;
         contact_number = holder.contact_number;
-        boton =holder.boton;
+        boton = holder.boton;
+        llamada = holder.llamada;
 
         contact_name.setText(mListFavs.get(position).getName());
         contact_number.setText(mListFavs.get(position).getNumber());
         boton.setImageResource(mListFavs.get(position).isFav()?R.drawable.starfull:R.drawable.star);
 
+        llamada.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+                dialContactPhone(mListFavs.get(position).getNumber());
+            }
+        });
 
         boton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -138,12 +152,25 @@ public class FavRvAdapter extends RecyclerView.Adapter<FavRvAdapter.ViewHolder> 
         return mListFavs.size();
     }
 
+    private void dialContactPhone(final String phoneNumber) {
+        if (ActivityCompat.checkSelfPermission(mcontext, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+//              requestPermissions(mcontext,Manifest.permission.CALL_PHONE,1);
+        }else{
+//            mcontext.startActivity(new Intent(Intent.ACTION_CALL, Uri.fromParts("tel", phoneNumber, null)));
+            Intent intent = new Intent(Intent.ACTION_CALL);
+            intent.setData(Uri.parse("tel:"+phoneNumber));
+            mcontext.startActivity(intent);
+        }
+
+    }
+
 
     public  class ViewHolder extends RecyclerView.ViewHolder {
 
 
         TextView contact_name, contact_number;
         ImageView boton;
+        Button llamada;
         boolean fav;
 
         public ViewHolder(View itemView){
@@ -152,6 +179,7 @@ public class FavRvAdapter extends RecyclerView.Adapter<FavRvAdapter.ViewHolder> 
             contact_name = itemView.findViewById(R.id.contact_name);
             contact_number = itemView.findViewById(R.id.contact_num);
             boton = itemView.findViewById(R.id.contact_fav);
+            llamada=itemView.findViewById(R.id.contact_call);
 
         }
     }

@@ -77,7 +77,7 @@ public class FragmentCall extends Fragment {
         else {
             Cursor cursor = getContext().getContentResolver().query(CallLog.Calls.CONTENT_URI, null, null, null, CallLog.Calls.DATE + " DESC");
 
-
+            int name = cursor.getColumnIndex(CallLog.Calls.CACHED_NAME);
             int duration = cursor.getColumnIndex(CallLog.Calls.DURATION);
             int date = cursor.getColumnIndex(CallLog.Calls.DATE);
             int type = cursor.getColumnIndex(CallLog.Calls.TYPE);
@@ -85,8 +85,9 @@ public class FragmentCall extends Fragment {
 
 
 
+
             while (cursor.moveToNext()) {
-                int name = cursor.getColumnIndex(CallLog.Calls.CACHED_NAME);
+
                 Date d = new Date(Long.valueOf(cursor.getString(date)));
 
                 DateFormat longD = DateFormat.getDateInstance(DateFormat.LONG);
@@ -98,6 +99,7 @@ public class FragmentCall extends Fragment {
                 if(nam==null){
                     name=cursor.getColumnIndex(CallLog.Calls.NUMBER);
                 }
+
 
                 String dir = null;
                 int dircode = Integer.parseInt(callType);
@@ -122,7 +124,7 @@ public class FragmentCall extends Fragment {
 
 
             }
-            cursor.close();
+
 
         }
         return list;

@@ -46,13 +46,21 @@ public class MainActivity extends AppCompatActivity {
 
     private final static int[] ICONS={R.drawable.phone,R.drawable.avatar , R.drawable.star};
     ViewPagerAdapter adapter= new ViewPagerAdapter(getSupportFragmentManager());
-    public final FragmentCall fragC=new FragmentCall();
+    public  FragmentCall fragC=new FragmentCall();
     public final FragmentContact fragC2=new FragmentContact();
     public final FragmentFav fragF=new FragmentFav();
 
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(LocaleHelper.onAttach(newBase,"en"));
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        adapter.setFragList(0,getString(R.string.Calls),new FragmentCall());
+        updatevp(0);
+        Log.d("entro al", "onResume: ");
     }
 
     @Override
@@ -96,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
             Context context=LocaleHelper.setLocale(this,lang);
             Resources resources = context.getResources();
 
-            adapter.setFragList(0,resources.getString(R.string.Calls),fragC);
+            adapter.setFragList(0,resources.getString(R.string.Calls),new FragmentCall());
             adapter.setFragList(1,resources.getString(R.string.Contacts),fragC2);
             adapter.setFragList(2,resources.getString(R.string.Favorites),fragF);
 
@@ -105,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
                 TabLayout.Tab tab= tabLayout.getTabAt(i);
             tab.setIcon(ICONS[i]);
             }
-
+        updatevp(0);
 
 
     }
@@ -232,7 +240,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void requestPermission(){
-        ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.READ_CALL_LOG,Manifest.permission.READ_CONTACTS},code);
+        ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.READ_CALL_LOG,Manifest.permission.READ_CONTACTS,Manifest.permission.CALL_PHONE},code);
 
     }
 
