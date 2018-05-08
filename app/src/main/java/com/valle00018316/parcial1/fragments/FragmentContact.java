@@ -27,6 +27,8 @@ import com.valle00018316.parcial1.models.ModelContact;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.valle00018316.parcial1.MainActivity.c;
+
 public class FragmentContact extends Fragment {
 
     private View v;
@@ -34,6 +36,11 @@ public class FragmentContact extends Fragment {
     private int request = 14;
     private Button llamada;
     public static List<ModelContact> list = new ArrayList<>();
+    public static List<ModelContact> filteredContactList = new ArrayList<>();
+    public static List<ModelContact> aux = new ArrayList<>();
+
+
+//    public static
 
     public FragmentContact() {
 
@@ -60,26 +67,58 @@ public class FragmentContact extends Fragment {
     }
 
     private List<ModelContact> getContacts() {
+        if (list.size()==0 && c==1){
+            list = new ArrayList<>();
 
 
-
-        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
 //            requestPermission();
-        } else {
+            } else {
 
-            Cursor cursor = getContext().getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, ContactsContract.Contacts.DISPLAY_NAME + " ASC");
+                Cursor cursor = getContext().getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, ContactsContract.Contacts.DISPLAY_NAME + " ASC");
 
-            while (cursor.moveToNext()) {
+                while (cursor.moveToNext()) {
 
-                list.add(new ModelContact(cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME)),
-                        cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)),false));
+                    list.add(new ModelContact(cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME)),
+                            cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)),false));
 
+                }
+
+                cursor.close();
             }
+        }else{}
 
-            cursor.close();
-        }
 
         return list;
+    }
+
+    public List<ModelContact> filter( String query){
+        query = query.toLowerCase();
+
+        if (c==1){
+            aux=list;
+        }
+        c=0;
+        filteredContactList= new ArrayList<>();
+        for ( ModelContact model:aux){
+            final String text = model.getName().toLowerCase();
+            if (text.startsWith(query)){
+                filteredContactList.add(model);
+                Log.d(" ViewPagerAdapter", "Agregando un modelo a la lista: " + text);
+            }
+        }
+        return filteredContactList;
+    }
+
+    public static void updatelist(){
+
+            list = filteredContactList;
+
+    }
+
+    public static void allist(){
+        list=aux;
+        c=1;
     }
 
 //    public void requestPermission() {

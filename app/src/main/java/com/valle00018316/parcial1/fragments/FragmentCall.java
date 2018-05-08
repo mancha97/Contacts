@@ -122,6 +122,7 @@ public class FragmentCall extends Fragment {
 
 
             }
+            cursor.close();
 
         }
         return list;

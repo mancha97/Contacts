@@ -10,13 +10,16 @@ import android.provider.ContactsContract;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Adapter;
 import android.widget.TextView;
 
@@ -38,13 +41,14 @@ public class MainActivity extends AppCompatActivity {
     private static TabLayout tabLayout;
     public static ViewPager viewPager;
     private int code=16;
-    TextView textView;
+    public static int c=1;
+
 
     private final static int[] ICONS={R.drawable.phone,R.drawable.avatar , R.drawable.star};
     ViewPagerAdapter adapter= new ViewPagerAdapter(getSupportFragmentManager());
-    FragmentCall fragC=new FragmentCall();
-    FragmentContact fragC2=new FragmentContact();
-    FragmentFav fragF=new FragmentFav();
+    public final FragmentCall fragC=new FragmentCall();
+    public final FragmentContact fragC2=new FragmentContact();
+    public final FragmentFav fragF=new FragmentFav();
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -59,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         requestPermission();
         tabLayout= findViewById(R.id.tablayout);
         viewPager= findViewById(R.id.viewpager);
-        textView=(TextView)findViewById(R.id.hola);
+
 
         //Init Paper
         Paper.init(this);
@@ -77,8 +81,10 @@ public class MainActivity extends AppCompatActivity {
 
         adapter.addFragment(fragF,getString(R.string.Favorites));
 
-
+//        viewPager.setAdapter(adapter);
+        tabLayout.setupWithViewPager(viewPager);
         updateView((String)Paper.book().read("language"));
+
 
 
 
@@ -89,14 +95,10 @@ public class MainActivity extends AppCompatActivity {
     private void updateView(String lang) {
             Context context=LocaleHelper.setLocale(this,lang);
             Resources resources = context.getResources();
-            textView.setText(resources.getString(R.string.hello));
+
             adapter.setFragList(0,resources.getString(R.string.Calls),fragC);
             adapter.setFragList(1,resources.getString(R.string.Contacts),fragC2);
             adapter.setFragList(2,resources.getString(R.string.Favorites),fragF);
-            viewPager.setAdapter(adapter);
-            tabLayout.setupWithViewPager(viewPager);
-
-
 
 
             for(int i=0; i<tabLayout.getTabCount(); i++){
@@ -111,6 +113,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
+
         return true;
     }
 
@@ -124,6 +127,69 @@ public class MainActivity extends AppCompatActivity {
             Paper.book().write("language","es");
             updateView((String)Paper.book().read("language"));
         }
+        else if(item.getItemId()==R.id.searchbar) {
+            final SearchView searchView = (SearchView) item.getActionView();
+
+
+            searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+                @Override
+                public boolean onClose() {
+
+                    FragmentContact.allist();
+                    updatevp(1);
+                    return false;
+                }
+            });
+
+            searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener()
+            {
+                @Override
+                public void onFocusChange(View v, boolean newViewFocus)
+                {
+                    if (!newViewFocus)
+                    {
+                        FragmentContact.allist();
+                        updatevp(1);
+
+                    }
+                }
+            });
+
+
+
+
+
+            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String query) {
+
+
+
+                    return false;
+                }
+
+
+
+                @Override
+                public boolean onQueryTextChange(String newText) {
+                    Log.d("ww", newText);
+
+                        fragC2.filter(newText);
+                        viewPager.setCurrentItem(1);
+                        FragmentContact.updatelist();
+                        updatevp(1);
+
+                    return false;
+                }
+            });
+
+
+
+
+        }
+
+
+
         return true;
     }
 
@@ -133,7 +199,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (requestCode == code
                 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            Log.d("ddd", "ggg: ");
+
 
             viewPager.setAdapter(adapter);
             for(int i=0; i<tabLayout.getTabCount(); i++){
@@ -146,7 +212,7 @@ public class MainActivity extends AppCompatActivity {
         }
         if (requestCode == code
                 && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
-            Log.d("gggg", "zzz: ");
+
 
 
         }

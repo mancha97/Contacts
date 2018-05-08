@@ -30,7 +30,7 @@ public class FragmentFav extends Fragment {
     public static RecyclerView recyclerView;
 
     public static List<ModelContact> favs = new ArrayList<>();
-    public static List<Integer> favsref = new ArrayList<>();
+
     public Context mcontext;
 
 
@@ -58,12 +58,12 @@ public class FragmentFav extends Fragment {
 
     private List<ModelContact> getFavs(){
         favs = new ArrayList<>();
-        favsref= new ArrayList<>();
+
 
         for (int i = 0; i<list.size();i++){
             if(list.get(i).isFav()) {
                 favs.add(new ModelContact(list.get(i).getName(), list.get(i).getNumber(), true));
-                favsref.add(i);
+
             }
         }
 

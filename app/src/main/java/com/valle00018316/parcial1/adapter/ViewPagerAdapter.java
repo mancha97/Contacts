@@ -5,9 +5,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.ListFragment;
+import android.util.Log;
+
+import com.valle00018316.parcial1.models.ModelContact;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.valle00018316.parcial1.fragments.FragmentContact.list;
 
 public class ViewPagerAdapter extends FragmentPagerAdapter{
 
@@ -43,5 +48,7 @@ public class ViewPagerAdapter extends FragmentPagerAdapter{
         listTitle.set(i,hola);
         listFragment.set(i,frag);
     }
+
+
 
 }

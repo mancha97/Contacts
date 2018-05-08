@@ -18,7 +18,6 @@ import java.util.List;
 import static com.valle00018316.parcial1.MainActivity.updatevp;
 import static com.valle00018316.parcial1.MainActivity.viewPager;
 import static com.valle00018316.parcial1.fragments.FragmentContact.list;
-import static com.valle00018316.parcial1.fragments.FragmentFav.favsref;
 
 public class FavRvAdapter extends RecyclerView.Adapter<FavRvAdapter.ViewHolder> {
 
@@ -40,7 +39,8 @@ public class FavRvAdapter extends RecyclerView.Adapter<FavRvAdapter.ViewHolder> 
 
         inflater = LayoutInflater.from(mcontext);
         View view = inflater.inflate(R.layout.item_contact, parent, false);
-        ViewHolder viewHolder = new ViewHolder(view, this.favo);
+        ViewHolder viewHolder = new ViewHolder(view);
+
 
         return viewHolder;
     }
@@ -56,7 +56,8 @@ public class FavRvAdapter extends RecyclerView.Adapter<FavRvAdapter.ViewHolder> 
 
         contact_name.setText(mListFavs.get(position).getName());
         contact_number.setText(mListFavs.get(position).getNumber());
-        boton.setImageResource(mListFavs.get(position).isFav()?R.drawable.starfull:R.drawable.starfull);
+        boton.setImageResource(mListFavs.get(position).isFav()?R.drawable.starfull:R.drawable.star);
+
 
 
         boton.setOnClickListener(new View.OnClickListener() {
@@ -64,9 +65,6 @@ public class FavRvAdapter extends RecyclerView.Adapter<FavRvAdapter.ViewHolder> 
             public void onClick(View v) {
 
 
-                if(favo){
-                    Log.d("MIC", "Esta estrella esta true");}
-                else{Log.d("MIC", "Esta estrella esta false");}
 
                 if (!favo) {
                     if (!holder.fav) {
@@ -84,7 +82,7 @@ public class FavRvAdapter extends RecyclerView.Adapter<FavRvAdapter.ViewHolder> 
 
                         holder.boton.setImageResource(R.drawable.star);
                         holder.fav=false;
-                        Log.d("MIC", "quita la estrella");
+
 
 
                     } else {
@@ -97,7 +95,7 @@ public class FavRvAdapter extends RecyclerView.Adapter<FavRvAdapter.ViewHolder> 
                         }
                         holder.boton.setImageResource(R.drawable.starfull);
                         holder.fav=true;
-                        Log.d("MIC", "pone la estrella");
+
 
 
                     }
@@ -113,7 +111,7 @@ public class FavRvAdapter extends RecyclerView.Adapter<FavRvAdapter.ViewHolder> 
                         }
                         holder.boton.setImageResource(R.drawable.starfull);
                         holder.fav = true;
-                        Log.d("MIC", "Llena la estrella llena222");
+
 
 
                     } else {
@@ -121,7 +119,7 @@ public class FavRvAdapter extends RecyclerView.Adapter<FavRvAdapter.ViewHolder> 
 
                         holder.boton.setImageResource(R.drawable.star);
                         holder.fav = false;
-                        Log.d("MIC", "quita la estrella222");
+
 
                     }
 
@@ -148,13 +146,13 @@ public class FavRvAdapter extends RecyclerView.Adapter<FavRvAdapter.ViewHolder> 
         ImageView boton;
         boolean fav;
 
-        public ViewHolder(View itemView, boolean favs){
+        public ViewHolder(View itemView){
             super(itemView);
 
             contact_name = itemView.findViewById(R.id.contact_name);
             contact_number = itemView.findViewById(R.id.contact_num);
             boton = itemView.findViewById(R.id.contact_fav);
-            fav = favo;
+
         }
     }
 }
