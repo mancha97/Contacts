@@ -1,6 +1,7 @@
 package com.valle00018316.parcial1.adapter;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.content.Context;
 
 import android.content.Intent;
@@ -13,7 +14,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.valle00018316.parcial1.R;
 import com.valle00018316.parcial1.models.ModelCall;
@@ -26,6 +29,7 @@ public class CallRvAdapter extends RecyclerView.Adapter<CallRvAdapter.ViewHolder
     private Context nContext;
 
     private List<ModelCall> nlistCall;
+    Dialog mDialog;
 
     public CallRvAdapter(Context context, List<ModelCall> listCall){
             nContext=context;
@@ -41,6 +45,8 @@ public class CallRvAdapter extends RecyclerView.Adapter<CallRvAdapter.ViewHolder
         View view= layoutInflater.inflate(R.layout.item_call, parent, false);
 
         ViewHolder viewHolder= new ViewHolder(view);
+        mDialog = new Dialog(nContext);
+        mDialog.setContentView(R.layout.display);
 
 
         return viewHolder;
@@ -51,6 +57,7 @@ public class CallRvAdapter extends RecyclerView.Adapter<CallRvAdapter.ViewHolder
 
         TextView name, duration, date;
         Button llamada;
+        LinearLayout contacto;
         name = holder.name;
         duration= holder.duration;
         date = holder.date;
@@ -59,6 +66,7 @@ public class CallRvAdapter extends RecyclerView.Adapter<CallRvAdapter.ViewHolder
         duration.setText(nlistCall.get(position).getDuration());
         date.setText(nlistCall.get(position).getDate());
         llamada = holder.llamada;
+        contacto = holder.contacto;
 
         llamada.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,6 +75,8 @@ public class CallRvAdapter extends RecyclerView.Adapter<CallRvAdapter.ViewHolder
                 dialContactPhone(nlistCall.get(position).getNumber());
             }
         });
+
+
 
     }
 
@@ -91,9 +101,12 @@ public class CallRvAdapter extends RecyclerView.Adapter<CallRvAdapter.ViewHolder
 
         TextView name, duration, date;
         Button llamada;
+        LinearLayout contacto;
+        Button share;
         public ViewHolder(View itemView) {
             super(itemView);
-
+            contacto = itemView.findViewById(R.id.contact_disp);
+            share = itemView.findViewById(R.id.display_share);
             name= itemView.findViewById(R.id.contact_name);
             duration= itemView.findViewById(R.id.call_duration);
             date= itemView.findViewById(R.id.call_date);

@@ -9,6 +9,8 @@
     android:weightSum="11">
 
     <Button
+        android:maxWidth="44dp"
+        android:maxHeight="44dp"
         android:id="@+id/contact_info"
         android:layout_width="0dp"
         android:layout_marginLeft="8dp"
@@ -45,6 +47,8 @@
 
     </LinearLayout>
     <ImageView
+        android:maxWidth="44dp"
+        android:maxHeight="44dp"
         android:id="@+id/contact_fav"
         android:layout_width="0dp"
         android:layout_height="32dp"
@@ -53,6 +57,8 @@
         android:layout_gravity="center"
         android:src="@drawable/star"/>
     <Button
+        android:maxWidth="44dp"
+        android:maxHeight="44dp"
         android:id="@+id/contact_call"
         android:layout_marginRight="8dp"
         android:layout_width="0dp"

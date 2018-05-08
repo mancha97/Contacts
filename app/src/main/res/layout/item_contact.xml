@@ -12,13 +12,15 @@
         android:id="@+id/contact_info"
         android:layout_width="0dp"
         android:layout_marginLeft="8dp"
-
+        android:maxWidth="44dp"
+        android:maxHeight="44dp"
         android:layout_weight="1"
         android:layout_height="32dp"
         android:background="@drawable/avatar"
         android:layout_gravity="center"/>
     
     <LinearLayout
+        android:id="@+id/contact_disp"
         android:layout_width="0dp"
         android:layout_weight="8"
         android:padding="5dp"
@@ -45,6 +47,8 @@
             />
     </LinearLayout>
     <ImageView
+        android:maxWidth="44dp"
+        android:maxHeight="44dp"
         android:id="@+id/contact_fav"
         android:layout_width="0dp"
         android:layout_height="32dp"
@@ -54,6 +58,8 @@
         android:src="@drawable/star"/>
 
     <Button
+        android:maxWidth="44dp"
+        android:maxHeight="44dp"
         android:id="@+id/contact_call"
         android:layout_marginRight="8dp"
         android:layout_width="0dp"

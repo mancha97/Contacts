@@ -9,4 +9,6 @@
     <string name="incoming">Incoming</string>
     <string name="missed">Missed</string>
     <string name="hello">Hello</string>
+    <string name="name">Name</string>
+    <string name="num">Number</string>
 </resources>

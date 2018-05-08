@@ -1,6 +1,7 @@
 package com.valle00018316.parcial1.adapter;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -14,7 +15,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.valle00018316.parcial1.R;
 import com.valle00018316.parcial1.models.ModelContact;
@@ -32,6 +35,7 @@ public class FavRvAdapter extends RecyclerView.Adapter<FavRvAdapter.ViewHolder> 
     public  List<ModelContact> mListFavs;
 
     boolean favo;
+    Dialog mDialog;
 
     public FavRvAdapter(Context mcontext, List<ModelContact> mListFavs) {
         this.mcontext = mcontext;
@@ -46,7 +50,8 @@ public class FavRvAdapter extends RecyclerView.Adapter<FavRvAdapter.ViewHolder> 
         inflater = LayoutInflater.from(mcontext);
         View view = inflater.inflate(R.layout.item_contact, parent, false);
         ViewHolder viewHolder = new ViewHolder(view);
-
+        mDialog = new Dialog(mcontext);
+        mDialog.setContentView(R.layout.display);
 
         return viewHolder;
     }
@@ -56,11 +61,13 @@ public class FavRvAdapter extends RecyclerView.Adapter<FavRvAdapter.ViewHolder> 
         TextView contact_name, contact_number;
         ImageView boton;
         Button llamada;
+        LinearLayout contacto;
 
         contact_name = holder.contact_name;
         contact_number = holder.contact_number;
         boton = holder.boton;
         llamada = holder.llamada;
+        contacto = holder.contacto;
 
         contact_name.setText(mListFavs.get(position).getName());
         contact_number.setText(mListFavs.get(position).getNumber());
@@ -72,6 +79,36 @@ public class FavRvAdapter extends RecyclerView.Adapter<FavRvAdapter.ViewHolder> 
 
                 dialContactPhone(mListFavs.get(position).getNumber());
             }
+        });
+
+        contacto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final TextView tvname = mDialog.findViewById(R.id.display_name);
+                final TextView tvnumber = mDialog.findViewById(R.id.display_number);
+                tvname.setText(mListFavs.get(position).getName());
+                tvnumber.setText(mListFavs.get(position).getNumber());
+                mDialog.show();
+
+                Button share = mDialog.findViewById(R.id.display_share);
+                share.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(mcontext, "Compartiendo datos", Toast.LENGTH_SHORT).show();
+
+                        Intent shareIntent = new Intent();
+                        shareIntent.setAction(Intent.ACTION_SEND_MULTIPLE);
+                        shareIntent.setType("*/*");
+                        shareIntent.putExtra(Intent.EXTRA_TEXT, mcontext.getString(R.string.name) + ": " + mListFavs.get(position).getName().toString() + "\n" + mcontext.getString(R.string.num) + ": " + mListFavs.get(position).getNumber().toString());
+                        mcontext.startActivity(shareIntent);
+
+                    }
+                });
+            }
+
+
+
+
         });
 
         boton.setOnClickListener(new View.OnClickListener() {
@@ -172,10 +209,13 @@ public class FavRvAdapter extends RecyclerView.Adapter<FavRvAdapter.ViewHolder> 
         ImageView boton;
         Button llamada;
         boolean fav;
+        LinearLayout contacto;
+        Button share;
 
         public ViewHolder(View itemView){
             super(itemView);
-
+            contacto = itemView.findViewById(R.id.contact_disp);
+            share = itemView.findViewById(R.id.display_share);
             contact_name = itemView.findViewById(R.id.contact_name);
             contact_number = itemView.findViewById(R.id.contact_num);
             boton = itemView.findViewById(R.id.contact_fav);
